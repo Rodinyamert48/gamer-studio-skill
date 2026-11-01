@@ -87,8 +87,8 @@ run the relevant check (build/test/screenshot) → report in 2–4 lines. Only u
 ## 3. The team — 30 specialists
 
 Each specialist is a real Claude Code subagent. **Subagent type = `game-studio:<agent>`**
-(when installed as a plain user agent instead of a plugin, the bare `<agent>` name).
-Use exactly the name that appears in your available agent list.
+(plugin / user-level install). A project-level install (`.claude/agents/game-studio/`)
+exposes the bare `<agent>` name instead. Use exactly the name in your available agent list.
 
 | # | Agent | Department | Call when… |
 |---|---|---|---|

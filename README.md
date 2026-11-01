@@ -25,7 +25,13 @@ Var olan bir game-studio kurulumu önce `~/.claude/backups/` altına yedeklenir;
 **başka** bir klasör varsa betik hiçbir şeyin üzerine yazmaz. Diğer skill ve agent'larınıza dokunmaz.
 
 Seçenekler: `--link` (kopyalamak yerine sembolik bağ — skill'i geliştirirken), `--project <dir>`
-(yalnızca bir projeye kur: `<dir>/.claude/skills/game-studio`), `--dry-run`.
+(yalnızca bir projeye kur), `--dry-run`.
+
+> **Proje seviyesi kurulum notu:** Claude Code, skills-dir plugin'lerini yalnızca kullanıcı
+> dizininden (`~/.claude/skills/`) plugin olarak yükler. Bu yüzden `--project` kurulumu skill'i
+> `<dir>/.claude/skills/game-studio/`, 30 uzmanı ise `<dir>/.claude/agents/game-studio/` altına
+> koyar; uzmanlar bu durumda önek olmadan (`qa-engineer` gibi) görünür. Projede aynı adlı bir
+> agent varsa betik hiçbir şey kopyalamadan durur.
 
 ### B) Plugin marketplace üzerinden
 Claude Code içinde:

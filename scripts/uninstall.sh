@@ -6,6 +6,10 @@ CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 BASE="$CONFIG_DIR/skills"
 if [[ "${1:-}" == "--project" ]]; then BASE="$(cd "${2:?--project needs a directory}" && pwd)/.claude/skills"; fi
 TARGET="$BASE/game-studio"
+AGENTS_DIR="$(dirname "$BASE")/agents/game-studio"
+if [[ "${1:-}" == "--project" && -d "$AGENTS_DIR" ]]; then
+  rm -rf "$AGENTS_DIR"; echo "Removed project agents $AGENTS_DIR"
+fi
 
 if [[ -L "$TARGET" ]]; then
   rm "$TARGET"; echo "Removed symlink $TARGET"; exit 0

@@ -18,10 +18,11 @@ CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 BASE="$CONFIG_DIR/skills"
 MODE=copy
 DRY=0
+PROJECT=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --project) BASE="$(cd "${2:?--project needs a directory}" && pwd)/.claude/skills"; shift 2 ;;
+    --project) BASE="$(cd "${2:?--project needs a directory}" && pwd)/.claude/skills"; PROJECT=1; shift 2 ;;
     --link) MODE=link; shift ;;
     --dry-run) DRY=1; shift ;;
     -h|--help) sed -n '2,14p' "$0"; exit 0 ;;
@@ -39,6 +40,19 @@ is_ours() {  # $1 = dir; true if it is a game-studio install
 echo "GAME STUDIO installer"
 echo "  source : $SRC"
 echo "  target : $TARGET ($MODE)"
+
+# Project scope: refuse early if any specialist name is already taken in the project.
+if [[ $PROJECT -eq 1 ]]; then
+  AGENTS_DST="$(dirname "$BASE")/agents/$NAME"
+  for f in "$SRC"/agents/*.md; do
+    n="$(sed -n 's/^name: *//p' "$f" | head -1)"
+    clash="$(grep -rlE "^name: *$n *$" "$(dirname "$AGENTS_DST")" --include='*.md' 2>/dev/null | grep -v "/agents/$NAME/" || true)"
+    if [[ -n "$clash" ]]; then
+      echo "ERROR: agent name '$n' already used by $clash — not installing project agents." >&2
+      exit 1
+    fi
+  done
+fi
 
 if [[ "$(cd "$SRC" && pwd -P)" == "$( [[ -e "$TARGET" ]] && cd "$TARGET" && pwd -P )" ]]; then
   echo "Source and target are the same directory — already installed in place."
@@ -72,10 +86,24 @@ else
   [[ $DRY -eq 1 ]] || chmod +x "$TARGET"/scripts/*.sh 2>/dev/null || true
 fi
 
+# Project scope: skills-dir plugins only auto-load from the user config dir, so for a
+# project install the 30 specialists are also placed in <project>/.claude/agents/game-studio/
+# (Claude Code loads agent subfolders; names are then bare, e.g. "qa-engineer").
+if [[ $PROJECT -eq 1 ]]; then
+  [[ -d "$AGENTS_DST" ]] && run rm -rf "$AGENTS_DST"
+  run mkdir -p "$AGENTS_DST"
+  run cp "$SRC"/agents/*.md "$AGENTS_DST/"
+  echo "  agents : $AGENTS_DST (30 specialists, bare names)"
+fi
+
 if [[ $DRY -eq 0 ]]; then
   python3 "$TARGET/scripts/validate.py" "$TARGET"
   echo
   echo "Installed. Start a NEW Claude Code session (or run /reload-plugins) and use:"
   echo "  /game-studio <oyun fikri veya görev>"
-  echo "Specialists appear as subagents named game-studio:<role> (see /agents)."
+  if [[ $PROJECT -eq 1 ]]; then
+    echo "Specialists appear as project subagents named <role>, e.g. qa-engineer (see /agents)."
+  else
+    echo "Specialists appear as subagents named game-studio:<role> (see /agents)."
+  fi
 fi

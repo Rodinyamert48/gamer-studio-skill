@@ -170,6 +170,16 @@ python3 scripts/validate.py
 claude plugin validate .
 ```
 
+### Kurulum testi sonuçları (Claude Code 2.1.316, Linux)
+| Test | Sonuç |
+|---|---|
+| `scripts/validate.py` (797 yapısal kontrol; bozuk kopyada 5 hatayı yakaladı) | ✅ |
+| `claude plugin validate .` | ✅ |
+| Yeni oturumda yükleme: `game-studio@skills-dir` loaded, 30 agent `game-studio:*`, skill `game-studio` | ✅ |
+| Proje kurulumu (`--project`): 30 agent öneksiz yüklendi; isim çakışmasında kurulum reddedildi | ✅ |
+| Uçtan uca deneme 1 (S, HTML5 oyun): koordinatör → `gameplay-programmer` → `qa-engineer`; QA 2 hata buldu, düzeltildi, Playwright e2e 39/39 geçti, ~60 FPS | ✅ |
+| Uçtan uca deneme 2 (M, pre-production): `game-director` + `creative-director` + `technical-director` **paralel**, ardından `lead-game-designer` → `project-manager`; çelişki DECISIONS.md'de çözüldü | ✅ |
+
 ## Dil
 
 Koordinatör kullanıcıyla kullanıcının dilinde (varsayılan Türkçe) konuşur; `studio/`

@@ -1,0 +1,17 @@
+{
+  "name": "game-studio-marketplace",
+  "owner": {
+    "name": "rodinyamert48"
+  },
+  "metadata": {
+    "description": "Marketplace for the GAME STUDIO AI game development team plugin."
+  },
+  "plugins": [
+    {
+      "name": "game-studio",
+      "source": "./",
+      "description": "Central coordinator skill plus 30 specialist game-development subagents.",
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "game-studio",
+  "version": "1.0.0",
+  "description": "GAME STUDIO — AI game development team: a central coordinator skill plus 30 specialist subagents (production, design, UX/UI, art, animation, programming, audio, QA, publishing) that take a game from idea to a tested, playable release in any engine.",
+  "author": {
+    "name": "rodinyamert48"
+  },
+  "license": "MIT",
+  "keywords": ["game-development", "gamedev", "godot", "unity", "unreal", "html5", "subagents", "game-studio"],
+  "skills": [
+    "./"
+  ]
+}
